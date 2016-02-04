@@ -1,1 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<onDemand xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="ondemand.xsd">
+	<user name="odmig" password="odmig" userType="User Admin"
+		createFoldersAuth="Yes" timeOut="No Limit"
+		description="This is a description of Sample User Two">
+		<permission user="APP1" adminAuthority="Yes" />
+	</user>
+
+	<folder name="ODCHANGELOG" searchType="Hit List">
+		<permission user="odmig" adminAuthority="Yes" maxHits="No Limit" />
+		<!-- 
+		<field name="cost" fieldType="Decimal">
+			<fieldInfo user="SampleUser" sortOrder="2" greaterThan="Default"
+				lessThan="Yes" />
+		</field>
+		 -->
+		<field name="ID" fieldType="String (Variable)" description="Value from the changeSet id attribute" />
+		<field name="AUTHOR" fieldType="String (Variable)" />
+		<field name="FILENAME" fieldType="String (Variable)" />
+		<field name="DATEEXECUTED" fieldType="Date/Time" />
+		<field name="ORDEREXECUTED" fieldType="Big Int" />
+		<field name="EXECTYPE" fieldType="String (Variable)" />
+		<field name="MD5SUM" fieldType="String (Variable)" />
+		<field name="DESCRIPTION" fieldType="String (Variable)" />
+		<field name="COMMENTS" fieldType="String (Variable)" />
+		<field name="TAG" fieldType="String (Variable)" />
+		<field name="ODMIGVERSION" fieldType="String (Variable)" />
+	</folder>
+<!-- 
+ID	VARCHAR(255)	Value from the changeSet "id" attribute
+AUTHOR	VARCHAR(255)	Value from the changeSet "author" attribute
+FILENAME	VARCHAR(255)	Path to the changelog. This may be an absolute path or a relative path depending on how the changelog was passed to Liquibase. For best results, it should be a relative path
+DATEEXECUTED	DATETIME	Date/time of when the changeSet was executed. Used with ORDEREXECUTED to determine rollback order
+ORDEREXECUTED	INT	Order that the changeSets were executed. Used in addition to DATEEXECUTED to ensure order is correct even when the databases datetime supports poor resolution.
+	NOTE: The values are only guaranteed to be increasing within an individual update run. There are times where they will restart at zero.
+EXECTYPE	VARCHAR(10)	Description of how the changeSet was executed. Possible values include "EXECUTED", "FAILED", "SKIPPED", "RERAN", and "MARK_RAN",
+MD5SUM	VARCHAR(35)	Checksum of the changeSet when it was executed. Used on each run to ensure there have been no unexpected changes to changSet in the changelog file
+DESCRIPTION	VARCHAR(255)	Short auto-generated human readable description of changeSet
+COMMENTS	VARCHAR(255)	Value from the changeSet "comment" attribute
+TAG	VARCHAR(255)	Tracks which changeSets correspond to tag operations.
+LIQUIBASE	VARCHAR(20)	Version of Liquibase used to execute the changeSet
+ -->
+</onDemand>

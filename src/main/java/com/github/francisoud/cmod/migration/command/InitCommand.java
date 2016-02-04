@@ -14,8 +14,8 @@ public class InitCommand {
 		try {
 			Files.createDirectories(Paths.get(folder));
 			
-			final InputStream odchangelogXsd = getClass().getClassLoader().getResourceAsStream("odchangelog.xsd");
-			Files.copy(odchangelogXsd, Paths.get(folder, "odchangelog.xsd"), StandardCopyOption.REPLACE_EXISTING);
+//			final InputStream odchangelogXsd = getClass().getClassLoader().getResourceAsStream("odchangelog.xsd");
+//			Files.copy(odchangelogXsd, Paths.get(folder, "odchangelog.xsd"), StandardCopyOption.REPLACE_EXISTING);
 
 			final InputStream changelogXml = getClass().getResourceAsStream("changelog.xml");
 			Files.copy(changelogXml, Paths.get(folder, "changelog.xml"), StandardCopyOption.REPLACE_EXISTING);

@@ -9,7 +9,20 @@
 				<xsd:choice>
 					<xsd:element name="include" minOccurs="0" maxOccurs="1">
 						<xsd:complexType>
+							<xsd:attribute name="mode" type="xsd:string">
+								<xsd:annotation>
+									<xsd:documentation>either add, update or delete
+									</xsd:documentation>
+								</xsd:annotation>
+							</xsd:attribute>
 							<xsd:attribute name="file" type="xsd:string" />
+							<xsd:attribute name="options" type="xsd:string">
+								<xsd:annotation>
+									<xsd:documentation>any other arsxml options (-d -e
+										error_handling -h hostname -i -p password -u userid -v -x)
+									</xsd:documentation>
+								</xsd:annotation>
+							</xsd:attribute>
 						</xsd:complexType>
 					</xsd:element>
 				</xsd:choice>
