@@ -1,6 +1,17 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
 
+sourceCompatibility = 1.8
+version = '1.0.0'
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'cmod-migration',
+                   'Implementation-Version': version
+    }
+}
+
+
 repositories {
     jcenter()
 }
