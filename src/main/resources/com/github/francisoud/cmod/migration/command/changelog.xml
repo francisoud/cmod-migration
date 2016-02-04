@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odChangeLog
+    xmlns="https://github.com/francisoud/cmod-migration/xml/ns/odchangelog/1.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="https://github.com/francisoud/cmod-migration/xml/ns/odchangelog/1.0.0
+    https://raw.githubusercontent.com/francisoud/cmod-migration/1.0.0/odchangelog.xsd">
+    
+    <include file="classpath:config/liquibase/changelog/00000000000000_initial_schema.xml" />
+</odChangeLog>

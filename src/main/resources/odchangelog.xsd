@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="https://github.com/francisoud/cmod-migration/xml/ns/odchangelog/1.0.0"
+	targetNamespace="https://github.com/francisoud/cmod-migration/xml/ns/odchangelog/1.0.0"
+	elementFormDefault="qualified">
+	<xsd:element name="odChangeLog">
+		<xsd:complexType>
+			<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+				<xsd:choice>
+					<xsd:element name="include" minOccurs="0" maxOccurs="1">
+						<xsd:complexType>
+							<xsd:attribute name="file" type="xsd:string" />
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>
