@@ -1,6 +1,12 @@
+plugins {
+  id 'nebula.ospackage' version '3.4.0'
+}
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'nebula.ospackage'
 
+    
 sourceCompatibility = 1.8
 version = '1.0.0'
 
@@ -10,7 +16,6 @@ jar {
                    'Implementation-Version': version
     }
 }
-
 
 repositories {
     jcenter()
@@ -22,3 +27,12 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 
+ospackage {
+    release '3'
+    os = LINUX // only applied to RPM
+    into '/opt/app1'
+    from ('dist') {
+        user 'builds'
+        exclude '**/*.rb'
+    }
+}
