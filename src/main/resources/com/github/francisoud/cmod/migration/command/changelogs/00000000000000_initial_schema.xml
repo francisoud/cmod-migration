@@ -21,7 +21,7 @@
 		<field name="DATEEXECUTED" fieldType="Date/Time" />
 		<field name="ORDEREXECUTED" fieldType="Big Int" />
 		<field name="EXECTYPE" fieldType="String (Variable)" />
-		<field name="MD5SUM" fieldType="String (Variable)" />
+		<field name="CHECKSUM" fieldType="String (Variable)" />
 		<field name="DESCRIPTION" fieldType="String (Variable)" />
 		<field name="COMMENTS" fieldType="String (Variable)" />
 		<field name="TAG" fieldType="String (Variable)" />
@@ -41,4 +41,65 @@ COMMENTS	VARCHAR(255)	Value from the changeSet "comment" attribute
 TAG	VARCHAR(255)	Tracks which changeSets correspond to tag operations.
 LIQUIBASE	VARCHAR(20)	Version of Liquibase used to execute the changeSet
  -->
+ 
+ <!-- http://www.ibm.com/developerworks/data/library/techarticle/dm-0510wagner/ -->
+ <!--  http://www-01.ibm.com/support/knowledgecenter/SSEPCD_9.5.0/com.ibm.ondemand.administeringmp.doc/dodxm006.htm?lang=de -->
+ <application name="Monthly Reports" appGroup="Baxter Bay Credit" >
+      <afpData paperSize="Autosize" >
+      </afpData>
+
+      <preprocessParm dbName="name" />
+      <preprocessParm dbName="sdate" format="%m/%d/%y" />
+      <preprocessParm dbName="account" />
+      <preprocessParm dbName="balance" embedded=",." divideBy="100" />
+   </application>
+
+   <applicationGroup name="Baxter Bay Credit"
+            storageSet="Cache Only Storage Set" dbTablespaceType="SMS" >
+      <permission user="*PUBLIC" authority="None" />
+      <field name="name" stringType="Variable" stringLength="30" >
+      </field>
+
+      <field name="sdate" dataType="Date" segment="Yes" >
+      </field>
+
+      <field name="account" stringLength="11" >
+      </field>
+
+      <field name="balance" dataType="Decimal" >
+      </field>
+
+   </applicationGroup>
+
+   <storageSet name="Cache Only Storage Set" >
+      <node name="batch1" server="*ONDEMAND" loadData="Yes" accessMethod="Cache" />
+   </storageSet>
+
+   <folder name="Credit Card Statements" >
+      <applicationGroup name="Baxter Bay Credit" >
+      </applicationGroup>
+
+      <field name="Name" >
+         <mapping dbName="name" appGroup="Baxter Bay Credit" />
+         <fieldInfo group="*PUBLIC" displayOrder="1" queryOrder="1" />
+      </field>
+
+      <field name="Date" fieldType="Date" >
+         <mapping dbName="sdate" appGroup="Baxter Bay Credit" />
+         <fieldInfo group="*PUBLIC" displayOrder="2" queryOrder="2" dateIntLength="3"
+                   dateIntType="Months" default="Yes" />
+      </field>
+
+      <field name="Account Number" >
+         <mapping dbName="account" appGroup="Baxter Bay Credit" />
+         <fieldInfo group="*PUBLIC" displayOrder="3" queryOrder="3" />
+      </field>
+
+      <field name="Balance" fieldType="Decimal" >
+         <mapping dbName="balance" appGroup="Baxter Bay Credit" />
+         <fieldInfo group="*PUBLIC" displayOrder="4" queryOrder="4" />
+      </field>
+
+   </folder>
+ 
 </onDemand>

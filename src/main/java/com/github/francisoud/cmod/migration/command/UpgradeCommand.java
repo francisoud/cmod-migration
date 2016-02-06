@@ -11,6 +11,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.*;
 
+import com.github.francisoud.cmod.migration.Version;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -18,6 +20,8 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
@@ -53,19 +57,39 @@ public class UpgradeCommand implements Command {
 					final String checksum = DigestUtils.sha1Hex(new FileInputStream(file));
 					final String author = System.getProperty("user.name");
 					final String options = node.getAttributes().getNamedItem("options").getTextContent();
+					
+					// row = getODChangeLog(where id = i)
+					// if ( != checksum.equals(row.getDisplayValue("checksum")) {
+					// System.err.println("Error file has been modified since previous migration: " + filePath);
+					// System.err.println("Invalid checksum: item n° "+ i + " file computed checksum: " + checksum + " doesn't match previous checksum in od: " + row.getDisplayValue("checksum"));
+					// System.exit(-1);
+					// }
+					
+					final String validateCommand = new StringBuilder("arsxml validate -i ").append(file.getAbsolutePath()).toString();
+					exec(validateCommand);
+
 					final String arsxmlCommand = new StringBuilder("arsxml ").append(mode).append(" ").append(options)
 							.append(" ").append(file.getAbsolutePath()).toString();
-					System.out.println(arsxmlCommand);
-					final Runtime runtime = Runtime.getRuntime();
-					final Process process = runtime.exec(arsxmlCommand);
-					int retVal = process.waitFor();
-					if (retVal != 0) {
-						System.exit(retVal);
-					}
+					exec(arsxmlCommand);
+					
+					SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd-hhmmss.S");
+					String timestamp = formatter.format(new Date());
+					// insert in ODCHANGELOG (i, checksum, filePath, author, timestamp, Version.VERSION)
 				}
 			}
 		} catch (IOException | ParserConfigurationException | SAXException | InterruptedException e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	private void exec(String command) throws IOException, InterruptedException {
+		System.out.println(command);
+		final Runtime runtime = Runtime.getRuntime();
+		final Process process = runtime.exec(command);
+		int retVal = process.waitFor();
+		if (retVal != 0) {
+			System.exit(retVal);
+		} 
+
 	}
 }
