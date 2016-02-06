@@ -5,5 +5,5 @@
     xsi:schemaLocation="https://github.com/francisoud/cmod-migration/xml/ns/odchangelog/1.0.0
     https://raw.githubusercontent.com/francisoud/cmod-migration/1.0.0/odchangelog.xsd">
     
-    <include mode="add" file="classpath:config/liquibase/changelog/00000000000000_initial_schema.xml" options="" />
+    <include mode="add" file="changelogs/00000000000000_initial_schema.xml" options="" />
 </odChangeLog>

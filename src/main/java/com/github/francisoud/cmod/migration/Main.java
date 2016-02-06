@@ -9,14 +9,15 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 import com.github.francisoud.cmod.migration.command.InitCommand;
+import com.github.francisoud.cmod.migration.command.UpgradeCommand;
 
 public class Main {
 
 	public static void main(String[] args) throws ParseException {
-		Options options = new Options();
-		Option help = new Option("h", "help", false, "print this message");
+		final Options options = new Options();
+		final Option help = new Option("h", "help", false, "print this message");
 		options.addOption(help);
-		Option version = new Option("V", "version", false, "print the version information and exit");
+		final Option version = new Option("V", "version", false, "print the version information and exit");
 		options.addOption(version);
 		/*
 		Option quiet = new Option("q", "quiet", false, "be extra quiet");
@@ -26,13 +27,14 @@ public class Main {
 		Option debug = new Option("d", "debug", false, "print debugging information");
 		options.addOption(debug);
 		*/
-		options.addOption(Option.builder("i").longOpt(InitCommand.ID).hasArg().argName("folder").build());
+		options.addOption(Option.builder("i").longOpt(InitCommand.ID).desc("create initial files").hasArg().argName("folder").build());
+		options.addOption(Option.builder("u").longOpt("upgrade").desc("upgrade cmod").hasArg().argName("folder").build());
 
-		CommandLineParser parser = new DefaultParser();
-		CommandLine cmd = parser.parse(options, args);
+		final CommandLineParser parser = new DefaultParser();
+		final CommandLine cmd = parser.parse(options, args);
 
 		if (cmd.getOptions().length == 0 || cmd.hasOption("help")) {
-			HelpFormatter formatter = new HelpFormatter();
+			final HelpFormatter formatter = new HelpFormatter();
 			formatter.printHelp("odmig", options);
 		}
 
@@ -41,9 +43,15 @@ public class Main {
 		}
 
 		if (cmd.hasOption(InitCommand.ID)) {
-			InitCommand init = new InitCommand();
-			String folder = cmd.getOptionValue(InitCommand.ID, ".");
-			init.execute(folder);
+			final InitCommand initCommand = new InitCommand();
+			String folder = cmd.getOptionValue(InitCommand.ID);
+			initCommand.execute(folder);
+		}
+
+		if (cmd.hasOption("upgrade")) {
+			final UpgradeCommand upgradeCommand = new UpgradeCommand();
+			String folder = cmd.getOptionValue("upgrade");
+			upgradeCommand.execute(folder);
 		}
 	}
 }
